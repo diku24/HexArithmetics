@@ -42,7 +42,7 @@ func TestMultiplication(t *testing.T) {
 func TestDivision(t *testing.T) {
 	arith := New()
 
-	answer, err := arith.Divison(1, 1)
+	answer, err := arith.Division(1, 1)
 	if err != nil {
 		t.Fatalf("Expected: %v, got: %v", nil, err)
 	}

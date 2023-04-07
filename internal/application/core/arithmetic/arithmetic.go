@@ -24,6 +24,6 @@ func (arith Arith) Multiplication(a int32, b int32) (int32, error) {
 }
 
 // Division gets the result of dividing parameters a and b
-func (arith Arith) Divison(a int32, b int32) (int32, error) {
+func (arith Arith) Division(a int32, b int32) (int32, error) {
 	return a / b, nil
 }
