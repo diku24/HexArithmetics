@@ -13,6 +13,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/test/bufconn"
 )
 
@@ -57,7 +58,8 @@ func bufDailer(context.Context, string) (net.Conn, error) {
 }
 
 func getGRPCConnection(ctx context.Context, t *testing.T) *grpc.ClientConn {
-	conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDailer), grpc.WithInsecure())
+	//conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDailer), grpc.WithInsecure())
+	conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDailer), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		logrus.Fatalf("Failed to Dial bufnet: %v", err)
 	}
@@ -70,6 +72,7 @@ func TestGetAddition(t *testing.T) {
 	defer conn.Close()
 
 	client := pb.NewArtihmeticServiceClient(conn)
+
 	params := &pb.OperationParameters{
 		A: 1,
 		B: 1,
@@ -77,8 +80,9 @@ func TestGetAddition(t *testing.T) {
 
 	answer, err := client.GetAddition(ctx, params)
 	if err != nil {
-		t.Fatalf(EXPECTED_MESSAGE, nil, err)
+		t.Errorf(EXPECTED_MESSAGE, nil, err)
 	}
+
 	require.Equal(t, answer.Value, int32(2))
 }
 
@@ -95,7 +99,7 @@ func TestGetSubtraction(t *testing.T) {
 
 	answer, err := client.GetSubstraction(ctx, params)
 	if err != nil {
-		t.Fatalf(EXPECTED_MESSAGE, nil, err)
+		t.Errorf(EXPECTED_MESSAGE, nil, err)
 	}
 	require.Equal(t, answer.Value, int32(1))
 }
@@ -113,7 +117,7 @@ func TestGetMultiplication(t *testing.T) {
 
 	answer, err := client.GetMultiplication(ctx, params)
 	if err != nil {
-		t.Fatalf(EXPECTED_MESSAGE, nil, err)
+		t.Errorf(EXPECTED_MESSAGE, nil, err)
 	}
 	require.Equal(t, answer.Value, int32(1))
 }
@@ -131,7 +135,7 @@ func TestGetDivision(t *testing.T) {
 
 	answer, err := client.GetDivision(ctx, params)
 	if err != nil {
-		t.Fatalf("Expected: %v, got: %v", nil, err)
+		t.Errorf("Expected: %v, got: %v", nil, err)
 	}
 	require.Equal(t, answer.Value, int32(1))
 }
