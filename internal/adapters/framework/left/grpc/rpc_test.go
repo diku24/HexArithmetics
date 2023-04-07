@@ -17,6 +17,7 @@ import (
 )
 
 const buffsize = 1024 * 1024
+const EXPECTED_MESSAGE = "Expected: %v, got: %v"
 
 var lis *bufconn.Listener
 
@@ -76,7 +77,7 @@ func TestGetAddition(t *testing.T) {
 
 	answer, err := client.GetAddition(ctx, params)
 	if err != nil {
-		t.Fatalf("Expected: %v, got: %v", nil, err)
+		t.Fatalf(EXPECTED_MESSAGE, nil, err)
 	}
 	require.Equal(t, answer.Value, int32(2))
 }
@@ -94,7 +95,7 @@ func TestGetSubtraction(t *testing.T) {
 
 	answer, err := client.GetSubstraction(ctx, params)
 	if err != nil {
-		t.Fatalf("Expected: %v, got: %v", nil, err)
+		t.Fatalf(EXPECTED_MESSAGE, nil, err)
 	}
 	require.Equal(t, answer.Value, int32(1))
 }
@@ -112,7 +113,7 @@ func TestGetMultiplication(t *testing.T) {
 
 	answer, err := client.GetMultiplication(ctx, params)
 	if err != nil {
-		t.Fatalf("Expected: %v, got: %v", nil, err)
+		t.Fatalf(EXPECTED_MESSAGE, nil, err)
 	}
 	require.Equal(t, answer.Value, int32(1))
 }
