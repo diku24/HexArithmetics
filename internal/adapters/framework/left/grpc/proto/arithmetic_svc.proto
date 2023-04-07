@@ -7,7 +7,7 @@ import "number_msg.proto";
 option go_package = "./pb";
 
 service ArtihmeticService{
-    rpc GetAddtion(OperationParameters) returns (Answer){}
+    rpc GetAddition(OperationParameters) returns (Answer){}
     rpc GetSubstraction(OperationParameters) returns (Answer){}
     rpc GetMultiplication(OperationParameters) returns (Answer){}
     rpc GetDivision(OperationParameters) returns (Answer){}
