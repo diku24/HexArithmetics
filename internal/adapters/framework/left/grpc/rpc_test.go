@@ -1,11 +1,10 @@
 package rpc
 
 import (
-	"HexArithmatics/internal/adapters/app/api"
-	"HexArithmatics/internal/adapters/core/arithmetic"
 	"HexArithmatics/internal/adapters/framework/left/grpc/pb"
 	"HexArithmatics/internal/adapters/framework/right/db"
-	"HexArithmatics/internal/ports"
+	"HexArithmatics/internal/application/api"
+	"HexArithmatics/internal/application/core/arithmetic"
 	"context"
 	"net"
 	"os"
@@ -26,26 +25,21 @@ func init() {
 	lis = bufconn.Listen(buffsize)
 	grpcServer := grpc.NewServer()
 
-	//Ports
-	var dbaseAdapter ports.DBPort
-	var core ports.ArthimeticsPort
-	var appAdapter ports.APIPort
-	var gRPCAdpter ports.GRPCPort
-
 	dBaseDrive := os.Getenv("DB_DRIVER")
 	dSourceName := os.Getenv("DS_NAME")
 
-	dbaseAdapter, err = db.NewAdapter(dBaseDrive, dSourceName)
+	dbaseAdapter, err := db.NewAdapter(dBaseDrive, dSourceName)
 	if err != nil {
 		logrus.Fatalf("Failed to intitate database connections: %v", err)
 	}
 	defer dbaseAdapter.CloseDbConnection()
 
-	core = arithmetic.NewAdapter()
+	// core
+	core := arithmetic.New()
 
-	appAdapter = api.NewAdapter(dbaseAdapter, core)
+	applicationAPI := api.NewApplication(dbaseAdapter, core)
 
-	gRPCAdpter = NewAdapter(appAdapter)
+	gRPCAdpter := NewAdapter(applicationAPI)
 
 	grpcServer = grpc.NewServer()
 
@@ -69,7 +63,7 @@ func getGRPCConnection(ctx context.Context, t *testing.T) *grpc.ClientConn {
 	return conn
 }
 
-func TestGetAddtion(t *testing.T) {
+func TestGetAddition(t *testing.T) {
 	ctx := context.Background()
 	conn := getGRPCConnection(ctx, t)
 	defer conn.Close()
@@ -80,7 +74,7 @@ func TestGetAddtion(t *testing.T) {
 		B: 1,
 	}
 
-	answer, err := client.GetAddtion(ctx, params)
+	answer, err := client.GetAddition(ctx, params)
 	if err != nil {
 		t.Fatalf("Expected: %v, got: %v", nil, err)
 	}

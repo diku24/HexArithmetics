@@ -11,28 +11,29 @@ import (
 const MISSING_VALUE_ERROR = "missing required"
 const UNEXPECTED_ERROR = "Unexpected Error"
 
-// GetAddtion implements pb.ArtihmeticServiceServer
-// func (grpca Adapter) GetAddition(ctx context.Context, req *pb.OperationParameters) (*pb.Answer, error) {
-// 	var err error
-// 	ans := &pb.Answer{}
+// GetAddtion gets the result of adding parameters a and b
+func (grpca Adapter) GetAddition(ctx context.Context, req *pb.OperationParameters) (*pb.Answer, error) {
+	var err error
+	ans := &pb.Answer{}
 
-// 	if req.GetA() == 0 || req.GetB() == 0 {
-// 		return ans, status.Error(codes.InvalidArgument, MISSING_VALUE_ERROR)
+	if req.GetA() == 0 || req.GetB() == 0 {
+		return ans, status.Error(codes.InvalidArgument, MISSING_VALUE_ERROR)
 
-// 	}
-// 	answer, err := grpca.api.GetAddtion(req.A, req.B)
-// 	if err != nil {
-// 		return ans, status.Error(codes.Internal, UNEXPECTED_ERROR)
+	}
+	answer, err := grpca.api.GetAddtion(req.A, req.B)
+	if err != nil {
+		return ans, status.Error(codes.Internal, UNEXPECTED_ERROR)
 
-// 	}
+	}
 
-// 	ans = &pb.Answer{
-// 		Value: answer,
-// 	}
+	ans = &pb.Answer{
+		Value: answer,
+	}
 
-// 	return ans, nil
-// }
+	return ans, nil
+}
 
+// GetSubstraction gets the result of subtracting parameters a and b
 func (grpca Adapter) GetSubstraction(ctx context.Context, req *pb.OperationParameters) (*pb.Answer, error) {
 	var err error
 	ans := &pb.Answer{}
@@ -54,6 +55,7 @@ func (grpca Adapter) GetSubstraction(ctx context.Context, req *pb.OperationParam
 	return ans, nil
 }
 
+// GetMultiplication gets the result of Multiplying parameters a and b
 func (grpca Adapter) GetMultiplication(ctx context.Context, req *pb.OperationParameters) (*pb.Answer, error) {
 	var err error
 	ans := &pb.Answer{}
@@ -74,6 +76,8 @@ func (grpca Adapter) GetMultiplication(ctx context.Context, req *pb.OperationPar
 
 	return ans, nil
 }
+
+// GetDivision gets the result of dividing parameters a and b
 func (grpca Adapter) GetDivision(ctx context.Context, req *pb.OperationParameters) (*pb.Answer, error) {
 	var err error
 	ans := &pb.Answer{}
