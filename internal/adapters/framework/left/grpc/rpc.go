@@ -11,26 +11,27 @@ import (
 const MISSING_VALUE_ERROR = "missing required"
 const UNEXPECTED_ERROR = "Unexpected Error"
 
-func (grpca Adapter) GetAddition(ctx context.Context, req *pb.OperationParameters) (*pb.Answer, error) {
-	var err error
-	ans := &pb.Answer{}
+// GetAddtion implements pb.ArtihmeticServiceServer
+// func (grpca Adapter) GetAddition(ctx context.Context, req *pb.OperationParameters) (*pb.Answer, error) {
+// 	var err error
+// 	ans := &pb.Answer{}
 
-	if req.GetA() == 0 || req.GetB() == 0 {
-		return ans, status.Error(codes.InvalidArgument, MISSING_VALUE_ERROR)
+// 	if req.GetA() == 0 || req.GetB() == 0 {
+// 		return ans, status.Error(codes.InvalidArgument, MISSING_VALUE_ERROR)
 
-	}
-	answer, err := grpca.api.GetAddtion(req.A, req.B)
-	if err != nil {
-		return ans, status.Error(codes.Internal, UNEXPECTED_ERROR)
+// 	}
+// 	answer, err := grpca.api.GetAddtion(req.A, req.B)
+// 	if err != nil {
+// 		return ans, status.Error(codes.Internal, UNEXPECTED_ERROR)
 
-	}
+// 	}
 
-	ans = &pb.Answer{
-		Value: answer,
-	}
+// 	ans = &pb.Answer{
+// 		Value: answer,
+// 	}
 
-	return ans, nil
-}
+// 	return ans, nil
+// }
 
 func (grpca Adapter) GetSubstraction(ctx context.Context, req *pb.OperationParameters) (*pb.Answer, error) {
 	var err error
