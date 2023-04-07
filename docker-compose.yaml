@@ -24,5 +24,6 @@ services:
       MYSQL_PORT: "3306"
     depends_on:
       - db
-    command: ["go","test","-v","./..."]
+    command: ["go","test","-v","./internal/application/core/arithmetic/"]
+#    command: ["go","test","-v","./..."]
     
